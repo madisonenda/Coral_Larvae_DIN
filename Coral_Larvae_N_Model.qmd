@@ -1,0 +1,278 @@
+---
+title: "Coral_Larvae_DIN_Model"
+author: "Madison Enda"
+format: html
+editor: visual
+---
+
+## Modeling the Potential Relationship Between Dissolved Inorganic Nitrogen and Coral Larvae
+
+```{r, echo= FALSE, message= FALSE, warning=FALSE}
+# Load the required packages
+library(tidyverse)
+library(dplyr)
+library(kableExtra)
+library(here)
+library(lubridate)
+```
+
+### Read in our data with appropriate variable names using here(read.csv())
+
+```{r}
+# Read in the data as applicable variables
+demography <- read.csv(here("data", "MCR_LTER_Lenihan_mapped_corals_20220413.csv"))
+
+coral_recruits <- read.csv(here("data", "coral_recruit_tile_spat_counts_2006-2016_20180626.csv"))
+
+yearly_temp <- read.csv(here("data", "MCR_LTER_FOR04_PhysoData_Yearly_average.csv"))
+
+algae <- read.csv(here("data", "MCR_LTER_Macroalgal_CHN_2005_to_2022_20230713.csv"))
+
+```
+
+### Filter our demography, algae data to only be Site 4 (where our temperature data is from)
+
+```{r}
+# Filter to only Site 4 and drop NAs
+site4_demography <- demography %>%
+  filter(Site == "LTER4") %>%
+  drop_na()
+
+#Selecting the algae and N data, filtering to Site 4, and dropping NAs
+algae_select <- algae %>%
+  filter(Site== "LTER 4") %>%
+  select(Year, Dry_Weight, N) %>%
+  drop_na()
+
+```
+
+### Filter the SST data to our desired time period (2013-2016)
+
+```{r}
+# Selecting only temperature and year from the water column data
+yearly_temp_upper <- yearly_temp  %>%
+  select(upper_watercolumn_temperature_sbe39_C, time_local) %>%
+  drop_na()
+
+# Filtering the years of the algae data from 2013-2019
+temp_3_years <- yearly_temp_upper %>%
+  filter(time_local >= 2013 & time_local < 2017) %>%
+  mutate(Year= time_local) %>%
+    mutate(Year = year(Year)) %>%
+  mutate(Temp = upper_watercolumn_temperature_sbe39_C)%>%
+  select(Year, Temp)
+
+kable(temp_3_years)
+```
+
+### Filter the algae data and group by year to get algae and Nitrogen annual averages
+
+```{r}
+# Filtering to the years we have all data on
+algae_3_years <-algae_select %>%
+  filter(Year >= 2013 & Year <= 2016)
+
+# Taking the mean nitrogen content by year
+annual_average_N <- algae_3_years %>%
+  group_by(Year) %>%
+  summarize(mean(N))
+
+# Taking the mean algae biomass by year
+annual_average_algae <- algae_3_years %>%
+ group_by(Year) %>%
+  summarize(mean(Dry_Weight))
+ 
+kable(annual_average_N)
+kable(annual_average_algae)
+
+```
+
+### Filter our larval recruits data to years of interest and take annual mean total
+
+```{r}
+# Group by year and take the mean of adult observations
+average_recruits <- coral_recruits %>%
+ group_by(nominal_year) %>%
+  mutate(annual_recruits= mean(sum(count)))
+
+# Filter to 2013 through 2016
+recruits_3_years <- average_recruits %>%
+  filter(nominal_year >= 2013 & nominal_year <2017)
+
+average_recruits_3_years <- recruits_3_years %>%
+  group_by(nominal_year) %>%
+  summarize(mean(annual_recruits))
+
+kable(average_recruits_3_years)
+```
+
+```{r}
+average_larval_recruits <- mean(average_recruits_3_years$`mean(annual_recruits)`)
+average_larval_recruits
+```
+
+### Repeating the process for average recruits, but this time grouping by species as well
+
+```{r}
+# Filter for desired years, group by family and year
+average_recruits_species <- coral_recruits %>%
+  filter(nominal_year >= 2013 & nominal_year <= 2016) %>%
+  group_by(nominal_year, family) %>%
+  mutate(average_recruits = sum(count))
+
+# Find the average number of recruits each year for each coral species
+species_recruits <- average_recruits_species %>%
+  group_by( nominal_year, family) %>%
+  filter(family == c('Acroporidae')) %>%
+  summarize(mean(average_recruits))
+
+kable(species_recruits)
+```
+
+### Repeat the demography filtering process to get information for each species
+
+```{r}
+# Group by taxa and year, then take the average number of observations
+adult_population <- site4_demography %>%
+ group_by(Year, Taxa) %>%
+  mutate(annual_pop= mean(n()))
+
+# Group by taxa to find the average number of adults for each species
+species_population <- adult_population %>%
+  group_by( Year, Taxa) %>%
+  summarize(mean(annual_pop))
+
+kable(species_population)
+```
+
+### Creating a data frame with the data for each species, to create models for Pocilloporidae, Acroporidae, and Poritidae groups.
+
+```{r}
+acro_data <- data.frame(Year = annual_average_algae$Year, 
+                        Algae = annual_average_algae$`mean(Dry_Weight)`, 
+                        Nitrogen = annual_average_N$`mean(N)`,
+                        Temp = temp_3_years$Temp,
+                        Adult_Pop = c(9, 33, 39, 38),
+                        Larval_Recruits = c(38, 31, 51, 27))
+
+
+poci_data <- data.frame(Year = annual_average_algae$Year, 
+                        Algae = annual_average_algae$`mean(Dry_Weight)`, 
+                        Nitrogen = annual_average_N$`mean(N)`,
+                        Temp = temp_3_years$Temp,
+                        Adult_Pop = c(99, 63, 63, 64),
+                        Larval_Recruits = c(197, 74, 58, 261))
+
+
+
+pori_data <- data.frame(Year = annual_average_algae$Year, 
+                        Algae = annual_average_algae$`mean(Dry_Weight)`, 
+                        Nitrogen = annual_average_N$`mean(N)`,
+                        Temp = temp_3_years$Temp,
+                        Adult_Pop = c(109, 141, 114, 73),
+                        Larval_Recruits = c(29, 29, 55, 41))
+```
+
+### Let's start playing around with some models! :)
+
+```{r}
+acropora_lm <- lm(Adult_Pop ~ Larval_Recruits + Algae, acro_data)
+summary(acropora_lm)
+```
+
+### Predicting Coral Cover Instead of Adult Population
+
+```{r}
+# Loading in the coral cover data
+coral_cover <- read.csv(here("data", "knb-lter-mcr.4_1_20240105.csv"))
+
+#Selecting the date, taxa, and % cover data, filtering to Site 4, and dropping NAs
+coral_cover_site4 <- coral_cover %>%
+  filter(Site== "LTER 4") %>%
+  select(Date, Taxonomy_Substrate_or_Functional_Group, Percent_Cover) %>%
+  drop_na()
+
+
+# Filter to our desired years, take average, and group by taxa and year
+coral_cover_7 <- coral_cover_site4 %>%
+  filter(Date >= 2009 & Date <= 2017) %>%
+  filter(Taxonomy_Substrate_or_Functional_Group == c("Acropora", "Porites", "Pocillopora"))
+
+coral_cover_7$Percent_Cover <- as.numeric(coral_cover_7$Percent_Cover)
+
+coral_cover_mean <- coral_cover_7 %>%
+  group_by(Taxonomy_Substrate_or_Functional_Group, Date) %>%
+  summarize(mean(Percent_Cover))
+
+acro_coral_cover <- coral_cover_mean %>%
+  filter(Taxonomy_Substrate_or_Functional_Group == "Acropora")
+
+acro_coral_cover <- acro_coral_cover[-7,]
+
+kable(acro_coral_cover)
+```
+
+### Redefine our time frame for the other datasets
+
+```{r}
+# Recruits -----------------------------------------
+
+# Filter for desired years, group by family and year
+average_recruits_species_7 <- coral_recruits %>%
+  filter(nominal_year >= 2009 & nominal_year <= 2016) %>%
+  group_by(nominal_year, family) %>%
+  mutate(average_recruits = sum(count))
+
+# Find the average number of recruits each year for each coral species
+species_recruits_7 <- average_recruits_species_7 %>%
+  group_by( nominal_year, family) %>%
+  filter(family == c('Acroporidae')) %>%
+  summarize(mean(average_recruits))
+
+# Algae ------------------------------------------
+
+# Filtering to the years we have all data on
+algae_7_years <-algae_select %>%
+  filter(Year >= 2009 & Year <= 2016)
+
+# Taking the mean nitrogen content by year
+annual_average_N_7 <- algae_7_years %>%
+  group_by(Year) %>%
+  summarize(mean(N))
+
+# Taking the mean algae biomass by year
+annual_average_algae_7 <- algae_7_years %>%
+ group_by(Year) %>%
+  summarize(mean(Dry_Weight))
+ 
+# Temp -------------------------------------------
+
+# Filtering the years of the algae data from 2013-2019
+temp_7_years <- yearly_temp_upper %>%
+  filter(time_local >= 2009 & time_local < 2017) %>%
+  mutate(Year= time_local) %>%
+    mutate(Year = year(Year)) %>%
+  mutate(Temp = upper_watercolumn_temperature_sbe39_C)%>%
+  select(Year, Temp)
+
+```
+
+
+### Create the Data Frame for the 7 years data
+
+```{r}
+acro_data_7 <- data.frame(Year = annual_average_algae_7$Year, 
+                        Algae = annual_average_algae_7$`mean(Dry_Weight)`, 
+                        Nitrogen = annual_average_N_7$`mean(N)`,
+                        Temp = temp_7_years$Temp,
+                        Coral_Cover = acro_coral_cover$`mean(Percent_Cover)`,
+                        Larval_Recruits = species_recruits_7$`mean(average_recruits)`)
+```
+
+### Create a New Linear Regression with the 7 Year Data
+
+```{r} 
+acro_7_lm <- lm(Coral_Cover~ Larval_Recruits + Algae + Nitrogen + Temp + Larval_Recruits:Nitrogen, acro_data_7)
+summary(acro_7_lm)
+```
+
