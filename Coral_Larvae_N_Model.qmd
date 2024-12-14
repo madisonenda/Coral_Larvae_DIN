@@ -173,12 +173,11 @@ pori_data <- data.frame(Year = annual_average_algae$Year,
                         Larval_Recruits = c(29, 29, 55, 41))
 ```
 
-### Let's start playing around with some models! :)
-
 ```{r}
-acropora_lm <- lm(Adult_Pop ~ Larval_Recruits + Algae, acro_data)
-summary(acropora_lm)
+kable(acro_data) %>%
+  kable_classic_2(full_width = F)
 ```
+
 
 ### Predicting Coral Cover Instead of Adult Population
 
@@ -257,7 +256,6 @@ temp_7_years <- yearly_temp_upper %>%
 
 ```
 
-
 ### Create the Data Frame for the 7 years data
 
 ```{r}
@@ -269,10 +267,105 @@ acro_data_7 <- data.frame(Year = annual_average_algae_7$Year,
                         Larval_Recruits = species_recruits_7$`mean(average_recruits)`)
 ```
 
-### Create a New Linear Regression with the 7 Year Data
+```{r}
+kable(acro_data_7) %>%
+  kable_classic_2(full_width = F)
+```
 
-```{r} 
-acro_7_lm <- lm(Coral_Cover~ Larval_Recruits + Algae + Nitrogen + Temp + Larval_Recruits:Nitrogen, acro_data_7)
-summary(acro_7_lm)
+### Filter the data sets by year to join them together
+
+
+```{r}
+# Algae data for each year
+algae_2009 <- algae_7_years %>%
+  filter(Year == 2009) %>%
+  mutate(Temp = 27.21) %>%
+  mutate(Recruits = 23) %>%
+  mutate(Coral_Cover = 0.22857143)
+
+algae_2010 <- algae_7_years %>%
+  filter(Year == 2010) %>%
+  mutate(Temp = 27.77) %>%
+  mutate(Recruits = 20) %>%
+  mutate(Coral_Cover = 0.04883721)
+
+algae_2011  <- algae_7_years %>%
+  filter(Year == 2011) %>%
+  mutate(Temp = 27.14) %>%
+  mutate(Recruits = 107) %>%
+  mutate(Coral_Cover = 0.01388889)
+
+algae_2012  <- algae_7_years %>%
+  filter(Year == 2012) %>%
+  mutate(Temp = 27.58) %>%
+  mutate(Recruits = 124) %>%
+  mutate(Coral_Cover = 0.03902439)
+
+algae_2013  <- algae_7_years %>%
+  filter(Year == 2013) %>%
+  mutate(Temp = 27.89) %>%
+  mutate(Recruits = 38) %>%
+  mutate(Coral_Cover = 0.14285714)
+
+algae_2014  <- algae_7_years %>%
+  filter(Year == 2014) %>%
+  mutate(Temp = 27.14) %>%
+  mutate(Recruits = 31) %>%
+  mutate(Coral_Cover = 0.42333333)
+
+algae_2015  <- algae_7_years %>%
+  filter(Year == 2015) %>%
+  mutate(Temp = 27.80) %>%
+  mutate(Recruits = 51) %>%
+  mutate(Coral_Cover = 1.76410256)
+
+algae_2016  <- algae_7_years %>%
+  filter(Year == 2016) %>%
+  mutate(Temp = 27.97) %>%
+  mutate(Recruits = 27) %>%
+  mutate(Coral_Cover = 0.40625000)
+
+
+```
+
+### Join the data sets together for our 7 year data frame
+
+```{r}
+algae_9_10 <- full_join(algae_2009, algae_2010)
+
+algae_10_11 <- full_join(algae_9_10, algae_2011)
+
+algae_11_12 <- full_join(algae_10_11, algae_2012)
+
+algae_12_13 <- full_join(algae_11_12, algae_2013)
+
+algae_13_14 <- full_join(algae_12_13, algae_2014)
+
+algae_14_15 <- full_join(algae_13_14, algae_2015)
+
+acro_data7 <- full_join(algae_14_15, algae_2016)
+
+kable(summary(acro_data7)) %>%
+  kable_classic_2(full_width = F)
+```
+### Plot the information to see what
+
+```{r}
+
+ggplot(acro_data7, aes(x= Year, y= N, colour = Year)) +
+  geom_point() +
+ggtitle("Nitrogen Concentration at Moorea LTER Site 4 by Year") +
+  xlab("Year") +
+  ylab( "Nitrogen Concentration by \n\ Percent Weight of Algal Samples") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+### Running the linear regression model for the year 7 data
+
+```{r}
+
+acro_total_lm <- lm(Coral_Cover ~ Larval_Recruits + Algae + Nitrogen + Temp + Larval_Recruits:Nitrogen, data= acro_data_7)
+
+summary(acro_total_lm)
 ```
 

@@ -68,6 +68,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="Coral_Larvae_N_Model_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="Coral_Larvae_N_Model_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="Coral_Larvae_N_Model_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="Coral_Larvae_N_Model_files/libs/kePrint-0.0.1/kePrint.js"></script>
+
+<link href="Coral_Larvae_N_Model_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
 
 
 </head>
@@ -519,52 +523,78 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Adult_Pop =</span> <span class="fu">c</span>(<span class="dv">109</span>, <span class="dv">141</span>, <span class="dv">114</span>, <span class="dv">73</span>),</span>
 <span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Larval_Recruits =</span> <span class="fu">c</span>(<span class="dv">29</span>, <span class="dv">29</span>, <span class="dv">55</span>, <span class="dv">41</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="lets-start-playing-around-with-some-models" class="level3">
-<h3 class="anchored" data-anchor-id="lets-start-playing-around-with-some-models">Let’s start playing around with some models! :)</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>acropora_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(Adult_Pop <span class="sc">~</span> Larval_Recruits <span class="sc">+</span> Algae, acro_data)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(acropora_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = Adult_Pop ~ Larval_Recruits + Algae, data = acro_data)
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(acro_data) <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic_2</span>(<span class="at">full_width =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="lightable-classic-2 caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">Year</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Algae</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Nitrogen</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Temp</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Adult_Pop</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Larval_Recruits</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2013</td>
+<td style="text-align: right;">2481.093</td>
+<td style="text-align: right;">0.8627778</td>
+<td style="text-align: right;">27.89</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">38</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2014</td>
+<td style="text-align: right;">2122.400</td>
+<td style="text-align: right;">0.7026667</td>
+<td style="text-align: right;">27.14</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">31</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2015</td>
+<td style="text-align: right;">2193.600</td>
+<td style="text-align: right;">0.5860000</td>
+<td style="text-align: right;">27.80</td>
+<td style="text-align: right;">39</td>
+<td style="text-align: right;">51</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2016</td>
+<td style="text-align: right;">1953.800</td>
+<td style="text-align: right;">0.8646667</td>
+<td style="text-align: right;">27.97</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">27</td>
+</tr>
+</tbody>
+</table>
 
-Residuals:
-       1        2        3        4 
--0.78304  2.54078 -0.06457 -1.69317 
 
-Coefficients:
-                  Estimate Std. Error t value Pr(&gt;|t|)  
-(Intercept)     159.916650  18.280657   8.748   0.0725 .
-Larval_Recruits   0.682923   0.193226   3.534   0.1755  
-Algae            -0.070971   0.009254  -7.670   0.0825 .
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 3.153 on 1 degrees of freedom
-Multiple R-squared:  0.9833,    Adjusted R-squared:  0.9499 
-F-statistic: 29.42 on 2 and 1 DF,  p-value: 0.1293</code></pre>
 </div>
 </div>
 </section>
 <section id="predicting-coral-cover-instead-of-adult-population" class="level3">
 <h3 class="anchored" data-anchor-id="predicting-coral-cover-instead-of-adult-population">Predicting Coral Cover Instead of Adult Population</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading in the coral cover data</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>coral_cover <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"knb-lter-mcr.4_1_20240105.csv"</span>))</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecting the date, taxa, and % cover data, filtering to Site 4, and dropping NAs</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>coral_cover_site4 <span class="ot">&lt;-</span> coral_cover <span class="sc">%&gt;%</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Site<span class="sc">==</span> <span class="st">"LTER 4"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Date, Taxonomy_Substrate_or_Functional_Group, Percent_Cover) <span class="sc">%&gt;%</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter to our desired years, take average, and group by taxa and year</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>coral_cover_7 <span class="ot">&lt;-</span> coral_cover_site4 <span class="sc">%&gt;%</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Date <span class="sc">&gt;=</span> <span class="dv">2009</span> <span class="sc">&amp;</span> Date <span class="sc">&lt;=</span> <span class="dv">2017</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Taxonomy_Substrate_or_Functional_Group <span class="sc">==</span> <span class="fu">c</span>(<span class="st">"Acropora"</span>, <span class="st">"Porites"</span>, <span class="st">"Pocillopora"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading in the coral cover data</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>coral_cover <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"knb-lter-mcr.4_1_20240105.csv"</span>))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecting the date, taxa, and % cover data, filtering to Site 4, and dropping NAs</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>coral_cover_site4 <span class="ot">&lt;-</span> coral_cover <span class="sc">%&gt;%</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Site<span class="sc">==</span> <span class="st">"LTER 4"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Date, Taxonomy_Substrate_or_Functional_Group, Percent_Cover) <span class="sc">%&gt;%</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter to our desired years, take average, and group by taxa and year</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>coral_cover_7 <span class="ot">&lt;-</span> coral_cover_site4 <span class="sc">%&gt;%</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Date <span class="sc">&gt;=</span> <span class="dv">2009</span> <span class="sc">&amp;</span> Date <span class="sc">&lt;=</span> <span class="dv">2017</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Taxonomy_Substrate_or_Functional_Group <span class="sc">==</span> <span class="fu">c</span>(<span class="st">"Acropora"</span>, <span class="st">"Porites"</span>, <span class="st">"Pocillopora"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: There was 1 warning in `filter()`.
 ℹ In argument: `==...`.
@@ -572,21 +602,21 @@ Caused by warning in `Taxonomy_Substrate_or_Functional_Group == c("Acropora", "P
     "Pocillopora")`:
 ! longer object length is not a multiple of shorter object length</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>coral_cover_7<span class="sc">$</span>Percent_Cover <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(coral_cover_7<span class="sc">$</span>Percent_Cover)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>coral_cover_mean <span class="ot">&lt;-</span> coral_cover_7 <span class="sc">%&gt;%</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Taxonomy_Substrate_or_Functional_Group, Date) <span class="sc">%&gt;%</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(Percent_Cover))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>coral_cover_7<span class="sc">$</span>Percent_Cover <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(coral_cover_7<span class="sc">$</span>Percent_Cover)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>coral_cover_mean <span class="ot">&lt;-</span> coral_cover_7 <span class="sc">%&gt;%</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Taxonomy_Substrate_or_Functional_Group, Date) <span class="sc">%&gt;%</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(Percent_Cover))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'Taxonomy_Substrate_or_Functional_Group'.
 You can override using the `.groups` argument.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>acro_coral_cover <span class="ot">&lt;-</span> coral_cover_mean <span class="sc">%&gt;%</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Taxonomy_Substrate_or_Functional_Group <span class="sc">==</span> <span class="st">"Acropora"</span>)</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>acro_coral_cover <span class="ot">&lt;-</span> acro_coral_cover[<span class="sc">-</span><span class="dv">7</span>,]</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(acro_coral_cover)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>acro_coral_cover <span class="ot">&lt;-</span> coral_cover_mean <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Taxonomy_Substrate_or_Functional_Group <span class="sc">==</span> <span class="st">"Acropora"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>acro_coral_cover <span class="ot">&lt;-</span> acro_coral_cover[<span class="sc">-</span><span class="dv">7</span>,]</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(acro_coral_cover)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -645,66 +675,332 @@ You can override using the `.groups` argument.</code></pre>
 <section id="redefine-our-time-frame-for-the-other-datasets" class="level3">
 <h3 class="anchored" data-anchor-id="redefine-our-time-frame-for-the-other-datasets">Redefine our time frame for the other datasets</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recruits -----------------------------------------</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for desired years, group by family and year</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>average_recruits_species_7 <span class="ot">&lt;-</span> coral_recruits <span class="sc">%&gt;%</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(nominal_year <span class="sc">&gt;=</span> <span class="dv">2009</span> <span class="sc">&amp;</span> nominal_year <span class="sc">&lt;=</span> <span class="dv">2016</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nominal_year, family) <span class="sc">%&gt;%</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">average_recruits =</span> <span class="fu">sum</span>(count))</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the average number of recruits each year for each coral species</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>species_recruits_7 <span class="ot">&lt;-</span> average_recruits_species_7 <span class="sc">%&gt;%</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>( nominal_year, family) <span class="sc">%&gt;%</span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(family <span class="sc">==</span> <span class="fu">c</span>(<span class="st">'Acroporidae'</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(average_recruits))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recruits -----------------------------------------</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for desired years, group by family and year</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>average_recruits_species_7 <span class="ot">&lt;-</span> coral_recruits <span class="sc">%&gt;%</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(nominal_year <span class="sc">&gt;=</span> <span class="dv">2009</span> <span class="sc">&amp;</span> nominal_year <span class="sc">&lt;=</span> <span class="dv">2016</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nominal_year, family) <span class="sc">%&gt;%</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">average_recruits =</span> <span class="fu">sum</span>(count))</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the average number of recruits each year for each coral species</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>species_recruits_7 <span class="ot">&lt;-</span> average_recruits_species_7 <span class="sc">%&gt;%</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>( nominal_year, family) <span class="sc">%&gt;%</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(family <span class="sc">==</span> <span class="fu">c</span>(<span class="st">'Acroporidae'</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(average_recruits))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'nominal_year'. You can override using the
 `.groups` argument.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Algae ------------------------------------------</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtering to the years we have all data on</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>algae_7_years <span class="ot">&lt;-</span>algae_select <span class="sc">%&gt;%</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">&gt;=</span> <span class="dv">2009</span> <span class="sc">&amp;</span> Year <span class="sc">&lt;=</span> <span class="dv">2016</span>)</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Taking the mean nitrogen content by year</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>annual_average_N_7 <span class="ot">&lt;-</span> algae_7_years <span class="sc">%&gt;%</span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Year) <span class="sc">%&gt;%</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(N))</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Taking the mean algae biomass by year</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>annual_average_algae_7 <span class="ot">&lt;-</span> algae_7_years <span class="sc">%&gt;%</span></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a> <span class="fu">group_by</span>(Year) <span class="sc">%&gt;%</span></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(Dry_Weight))</span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Temp -------------------------------------------</span></span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtering the years of the algae data from 2013-2019</span></span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>temp_7_years <span class="ot">&lt;-</span> yearly_temp_upper <span class="sc">%&gt;%</span></span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time_local <span class="sc">&gt;=</span> <span class="dv">2009</span> <span class="sc">&amp;</span> time_local <span class="sc">&lt;</span> <span class="dv">2017</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year=</span> time_local) <span class="sc">%&gt;%</span></span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">year</span>(Year)) <span class="sc">%&gt;%</span></span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Temp =</span> upper_watercolumn_temperature_sbe39_C)<span class="sc">%&gt;%</span></span>
-<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Year, Temp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Algae ------------------------------------------</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtering to the years we have all data on</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>algae_7_years <span class="ot">&lt;-</span>algae_select <span class="sc">%&gt;%</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">&gt;=</span> <span class="dv">2009</span> <span class="sc">&amp;</span> Year <span class="sc">&lt;=</span> <span class="dv">2016</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Taking the mean nitrogen content by year</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>annual_average_N_7 <span class="ot">&lt;-</span> algae_7_years <span class="sc">%&gt;%</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Year) <span class="sc">%&gt;%</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(N))</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Taking the mean algae biomass by year</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>annual_average_algae_7 <span class="ot">&lt;-</span> algae_7_years <span class="sc">%&gt;%</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a> <span class="fu">group_by</span>(Year) <span class="sc">%&gt;%</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(Dry_Weight))</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Temp -------------------------------------------</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtering the years of the algae data from 2013-2019</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>temp_7_years <span class="ot">&lt;-</span> yearly_temp_upper <span class="sc">%&gt;%</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time_local <span class="sc">&gt;=</span> <span class="dv">2009</span> <span class="sc">&amp;</span> time_local <span class="sc">&lt;</span> <span class="dv">2017</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year=</span> time_local) <span class="sc">%&gt;%</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">year</span>(Year)) <span class="sc">%&gt;%</span></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Temp =</span> upper_watercolumn_temperature_sbe39_C)<span class="sc">%&gt;%</span></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Year, Temp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="create-the-data-frame-for-the-7-years-data" class="level3">
 <h3 class="anchored" data-anchor-id="create-the-data-frame-for-the-7-years-data">Create the Data Frame for the 7 years data</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>acro_data_7 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Year =</span> annual_average_algae_7<span class="sc">$</span>Year, </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Algae =</span> annual_average_algae_7<span class="sc">$</span><span class="st">`</span><span class="at">mean(Dry_Weight)</span><span class="st">`</span>, </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Nitrogen =</span> annual_average_N_7<span class="sc">$</span><span class="st">`</span><span class="at">mean(N)</span><span class="st">`</span>,</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Temp =</span> temp_7_years<span class="sc">$</span>Temp,</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Coral_Cover =</span> acro_coral_cover<span class="sc">$</span><span class="st">`</span><span class="at">mean(Percent_Cover)</span><span class="st">`</span>,</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Larval_Recruits =</span> species_recruits_7<span class="sc">$</span><span class="st">`</span><span class="at">mean(average_recruits)</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>acro_data_7 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Year =</span> annual_average_algae_7<span class="sc">$</span>Year, </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Algae =</span> annual_average_algae_7<span class="sc">$</span><span class="st">`</span><span class="at">mean(Dry_Weight)</span><span class="st">`</span>, </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Nitrogen =</span> annual_average_N_7<span class="sc">$</span><span class="st">`</span><span class="at">mean(N)</span><span class="st">`</span>,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Temp =</span> temp_7_years<span class="sc">$</span>Temp,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Coral_Cover =</span> acro_coral_cover<span class="sc">$</span><span class="st">`</span><span class="at">mean(Percent_Cover)</span><span class="st">`</span>,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Larval_Recruits =</span> species_recruits_7<span class="sc">$</span><span class="st">`</span><span class="at">mean(average_recruits)</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(acro_data_7) <span class="sc">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic_2</span>(<span class="at">full_width =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="lightable-classic-2 caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">Year</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Algae</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Nitrogen</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Temp</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Coral_Cover</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Larval_Recruits</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2009</td>
+<td style="text-align: right;">2311.575</td>
+<td style="text-align: right;">0.7454500</td>
+<td style="text-align: right;">27.21</td>
+<td style="text-align: right;">0.2285714</td>
+<td style="text-align: right;">23</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">2270.207</td>
+<td style="text-align: right;">0.6881724</td>
+<td style="text-align: right;">27.77</td>
+<td style="text-align: right;">0.0488372</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2011</td>
+<td style="text-align: right;">2552.082</td>
+<td style="text-align: right;">0.9279592</td>
+<td style="text-align: right;">27.14</td>
+<td style="text-align: right;">0.0138889</td>
+<td style="text-align: right;">107</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2012</td>
+<td style="text-align: right;">2469.520</td>
+<td style="text-align: right;">0.9688000</td>
+<td style="text-align: right;">27.58</td>
+<td style="text-align: right;">0.0390244</td>
+<td style="text-align: right;">124</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2013</td>
+<td style="text-align: right;">2481.093</td>
+<td style="text-align: right;">0.8627778</td>
+<td style="text-align: right;">27.89</td>
+<td style="text-align: right;">0.1428571</td>
+<td style="text-align: right;">38</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2014</td>
+<td style="text-align: right;">2122.400</td>
+<td style="text-align: right;">0.7026667</td>
+<td style="text-align: right;">27.14</td>
+<td style="text-align: right;">0.4233333</td>
+<td style="text-align: right;">31</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2015</td>
+<td style="text-align: right;">2193.600</td>
+<td style="text-align: right;">0.5860000</td>
+<td style="text-align: right;">27.80</td>
+<td style="text-align: right;">1.7641026</td>
+<td style="text-align: right;">51</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2016</td>
+<td style="text-align: right;">1953.800</td>
+<td style="text-align: right;">0.8646667</td>
+<td style="text-align: right;">27.97</td>
+<td style="text-align: right;">0.4062500</td>
+<td style="text-align: right;">27</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
 </div>
 </section>
-<section id="create-a-new-linear-regression-with-the-7-year-data" class="level3">
-<h3 class="anchored" data-anchor-id="create-a-new-linear-regression-with-the-7-year-data">Create a New Linear Regression with the 7 Year Data</h3>
+<section id="filter-the-data-sets-by-year-to-join-them-together" class="level3">
+<h3 class="anchored" data-anchor-id="filter-the-data-sets-by-year-to-join-them-together">Filter the data sets by year to join them together</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>acro_7_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(Coral_Cover<span class="sc">~</span> Larval_Recruits <span class="sc">+</span> Algae <span class="sc">+</span> Nitrogen <span class="sc">+</span> Temp <span class="sc">+</span> Larval_Recruits<span class="sc">:</span>Nitrogen, acro_data_7)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(acro_7_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Algae data for each year</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>algae_2009 <span class="ot">&lt;-</span> algae_7_years <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="dv">2009</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Temp =</span> <span class="fl">27.21</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Recruits =</span> <span class="dv">23</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Coral_Cover =</span> <span class="fl">0.22857143</span>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>algae_2010 <span class="ot">&lt;-</span> algae_7_years <span class="sc">%&gt;%</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="dv">2010</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Temp =</span> <span class="fl">27.77</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Recruits =</span> <span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Coral_Cover =</span> <span class="fl">0.04883721</span>)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>algae_2011  <span class="ot">&lt;-</span> algae_7_years <span class="sc">%&gt;%</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="dv">2011</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Temp =</span> <span class="fl">27.14</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Recruits =</span> <span class="dv">107</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Coral_Cover =</span> <span class="fl">0.01388889</span>)</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>algae_2012  <span class="ot">&lt;-</span> algae_7_years <span class="sc">%&gt;%</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="dv">2012</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Temp =</span> <span class="fl">27.58</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Recruits =</span> <span class="dv">124</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Coral_Cover =</span> <span class="fl">0.03902439</span>)</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>algae_2013  <span class="ot">&lt;-</span> algae_7_years <span class="sc">%&gt;%</span></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="dv">2013</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Temp =</span> <span class="fl">27.89</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Recruits =</span> <span class="dv">38</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Coral_Cover =</span> <span class="fl">0.14285714</span>)</span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>algae_2014  <span class="ot">&lt;-</span> algae_7_years <span class="sc">%&gt;%</span></span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="dv">2014</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Temp =</span> <span class="fl">27.14</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Recruits =</span> <span class="dv">31</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Coral_Cover =</span> <span class="fl">0.42333333</span>)</span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>algae_2015  <span class="ot">&lt;-</span> algae_7_years <span class="sc">%&gt;%</span></span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="dv">2015</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Temp =</span> <span class="fl">27.80</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Recruits =</span> <span class="dv">51</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Coral_Cover =</span> <span class="fl">1.76410256</span>)</span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a>algae_2016  <span class="ot">&lt;-</span> algae_7_years <span class="sc">%&gt;%</span></span>
+<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="dv">2016</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Temp =</span> <span class="fl">27.97</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Recruits =</span> <span class="dv">27</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-48"><a href="#cb27-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Coral_Cover =</span> <span class="fl">0.40625000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="join-the-data-sets-together-for-our-7-year-data-frame" class="level3">
+<h3 class="anchored" data-anchor-id="join-the-data-sets-together-for-our-7-year-data-frame">Join the data sets together for our 7 year data frame</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>algae_9_10 <span class="ot">&lt;-</span> <span class="fu">full_join</span>(algae_2009, algae_2010)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(Year, Dry_Weight, N, Temp, Recruits, Coral_Cover)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>algae_10_11 <span class="ot">&lt;-</span> <span class="fu">full_join</span>(algae_9_10, algae_2011)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(Year, Dry_Weight, N, Temp, Recruits, Coral_Cover)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>algae_11_12 <span class="ot">&lt;-</span> <span class="fu">full_join</span>(algae_10_11, algae_2012)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(Year, Dry_Weight, N, Temp, Recruits, Coral_Cover)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>algae_12_13 <span class="ot">&lt;-</span> <span class="fu">full_join</span>(algae_11_12, algae_2013)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(Year, Dry_Weight, N, Temp, Recruits, Coral_Cover)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>algae_13_14 <span class="ot">&lt;-</span> <span class="fu">full_join</span>(algae_12_13, algae_2014)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(Year, Dry_Weight, N, Temp, Recruits, Coral_Cover)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>algae_14_15 <span class="ot">&lt;-</span> <span class="fu">full_join</span>(algae_13_14, algae_2015)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(Year, Dry_Weight, N, Temp, Recruits, Coral_Cover)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>acro_data7 <span class="ot">&lt;-</span> <span class="fu">full_join</span>(algae_14_15, algae_2016)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(Year, Dry_Weight, N, Temp, Recruits, Coral_Cover)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">summary</span>(acro_data7)) <span class="sc">%&gt;%</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic_2</span>(<span class="at">full_width =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="lightable-classic-2 caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Year</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Dry_Weight</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">N</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Temp</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Recruits</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Coral_Cover</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Min. :2009</td>
+<td style="text-align: left;">Min. :1499</td>
+<td style="text-align: left;">Min. :0.4700</td>
+<td style="text-align: left;">Min. :27.14</td>
+<td style="text-align: left;">Min. : 20.00</td>
+<td style="text-align: left;">Min. :0.01389</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">1st Qu.:2010</td>
+<td style="text-align: left;">1st Qu.:2193</td>
+<td style="text-align: left;">1st Qu.:0.6500</td>
+<td style="text-align: left;">1st Qu.:27.21</td>
+<td style="text-align: left;">1st Qu.: 23.00</td>
+<td style="text-align: left;">1st Qu.:0.03902</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Median :2012</td>
+<td style="text-align: left;">Median :2366</td>
+<td style="text-align: left;">Median :0.7600</td>
+<td style="text-align: left;">Median :27.58</td>
+<td style="text-align: left;">Median : 38.00</td>
+<td style="text-align: left;">Median :0.14286</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Mean :2012</td>
+<td style="text-align: left;">Mean :2378</td>
+<td style="text-align: left;">Mean :0.8336</td>
+<td style="text-align: left;">Mean :27.54</td>
+<td style="text-align: left;">Mean : 62.28</td>
+<td style="text-align: left;">Mean :0.22401</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">3rd Qu.:2013</td>
+<td style="text-align: left;">3rd Qu.:2600</td>
+<td style="text-align: left;">3rd Qu.:0.9900</td>
+<td style="text-align: left;">3rd Qu.:27.89</td>
+<td style="text-align: left;">3rd Qu.:107.00</td>
+<td style="text-align: left;">3rd Qu.:0.22857</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Max. :2016</td>
+<td style="text-align: left;">Max. :3037</td>
+<td style="text-align: left;">Max. :2.0100</td>
+<td style="text-align: left;">Max. :27.97</td>
+<td style="text-align: left;">Max. :124.00</td>
+<td style="text-align: left;">Max. :1.76410</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="plot-the-information-to-see-what" class="level3">
+<h3 class="anchored" data-anchor-id="plot-the-information-to-see-what">Plot the information to see what</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(acro_data7, <span class="fu">aes</span>(<span class="at">x=</span> Year, <span class="at">y=</span> N, <span class="at">colour =</span> Year)) <span class="sc">+</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggtitle</span>(<span class="st">"Nitrogen Concentration at Moorea LTER Site 4 by Year"</span>) <span class="sc">+</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Year"</span>) <span class="sc">+</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>( <span class="st">"Nitrogen Concentration by </span><span class="sc">\n</span><span class="st">\ Percent Weight of Algal Samples"</span>) <span class="sc">+</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Coral_Larvae_N_Model_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="running-the-linear-regression-model-for-the-year-7-data" class="level3">
+<h3 class="anchored" data-anchor-id="running-the-linear-regression-model-for-the-year-7-data">Running the linear regression model for the year 7 data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>acro_total_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(Coral_Cover <span class="sc">~</span> Larval_Recruits <span class="sc">+</span> Algae <span class="sc">+</span> Nitrogen <span class="sc">+</span> Temp <span class="sc">+</span> Larval_Recruits<span class="sc">:</span>Nitrogen, <span class="at">data=</span> acro_data_7)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(acro_total_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
